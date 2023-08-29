@@ -8,8 +8,10 @@ interface Props {
 }
 
 const RootLayout = ({ children }: Props) => {
+
   return (
     <div className="min-h-screen">
+
       <Header />
       <BottomHeader />
       {children}

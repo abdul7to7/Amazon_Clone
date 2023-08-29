@@ -3,6 +3,9 @@ import React from "react";
 import FormattedPrice from "./FormattedPrice";
 import { useDispatch } from "react-redux";
 import { addToCart, deleteFavorite } from "@/store/nextSlice";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 interface Item {
   _id: number;
   brand: string;
@@ -21,6 +24,19 @@ interface cartProductProps {
 
 const FavoriteProduct = ({ item }: cartProductProps) => {
   const dispatch = useDispatch();
+  const toastfxn = (par: string) => {
+    toast(par === 'cart' ? 'added to cart' : 'added to favorite', {
+      position: "bottom-right",
+      autoClose: 500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: par === 'cart' ? "dark" : "colored",
+      transition: Slide
+    });
+  }
   return (
     <div className="bg-gray-100 rounded-lg flex flex-col md:flex-row py-2 items-center gap-4 mb-2">
       <Image src={item.image} alt="Product image" width={150} height={150} />
@@ -36,25 +52,27 @@ const FavoriteProduct = ({ item }: cartProductProps) => {
           </p>
           <button
             onClick={() => {
-              dispatch(
-                addToCart({
-                  _id: item._id,
-                  brand: item.brand,
-                  category: item.category,
-                  description: item.description,
-                  image: item.image,
-                  isNew: item.isNew,
-                  oldPrice: item.oldPrice,
-                  price: item.price,
-                  title: item.title,
-                  quantity: 1,
-                })
-              ) && dispatch(deleteFavorite(item._id));
+              toastfxn('cart'),
+                dispatch(
+                  addToCart({
+                    _id: item._id,
+                    brand: item.brand,
+                    category: item.category,
+                    description: item.description,
+                    image: item.image,
+                    isNew: item.isNew,
+                    oldPrice: item.oldPrice,
+                    price: item.price,
+                    title: item.title,
+                    quantity: 1,
+                  })
+                ), dispatch(deleteFavorite(item._id))
             }}
             className="w-44 h-10 font-medium bg-amazon_blue text-white rounded-md hover:bg-amazon_yellow duration-300 hover:text-black mt-2"
           >
             add to cart
           </button>
+          <ToastContainer />
         </div>
         <div className="text-lg font-semibold text-amazon_blue">
           <FormattedPrice amount={item.price * item.quantity} />

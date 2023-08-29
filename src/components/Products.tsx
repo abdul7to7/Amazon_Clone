@@ -7,11 +7,27 @@ import FormattedPrice from "./FormattedPrice";
 import { useDispatch } from "react-redux";
 import { addToCart, addToFavorite } from "@/store/nextSlice";
 import Link from "next/link";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Products = ({ productData }: any) => {
   const dispatch = useDispatch();
+  const toastfxn = (par: string) => {
+    toast(par === 'cart' ? 'added to cart' : 'added to favorite', {
+      position: "bottom-right",
+      autoClose: 500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: par === 'cart' ? "dark" : "colored",
+      transition: Slide
+    });
+  }
   return (
     <div className="w-full px-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
       {productData.map(
         ({
           _id,
@@ -22,7 +38,7 @@ const Products = ({ productData }: any) => {
           image,
           isNew,
           oldPrice,
-          price,
+          price
         }: ProductProps) => (
           <div
             key={_id}
@@ -55,7 +71,7 @@ const Products = ({ productData }: any) => {
               </Link>
               <div className="w-12 h-24 absolute bottom-10 right-0 border-[1px] border-gray-400 bg-white rounded-md flex flex-col translate-x-20 group-hover:translate-x-0 transition-transform duration-300">
                 <span
-                  onClick={() =>
+                  onClick={() => {
                     dispatch(
                       addToCart({
                         _id: _id,
@@ -69,14 +85,15 @@ const Products = ({ productData }: any) => {
                         title: title,
                         quantity: 1,
                       })
-                    )
+                    ), toastfxn('cart')
+                  }
                   }
                   className="w-full h-full border-b-[1px] border-b-gray-400 flex items-center justify-center text-xl bg-transparent hover:bg-amazon_yellow cursor-pointer duration-300"
                 >
                   <HiShoppingCart />
                 </span>
                 <span
-                  onClick={() =>
+                  onClick={() => {
                     dispatch(
                       addToFavorite({
                         _id: _id,
@@ -90,7 +107,8 @@ const Products = ({ productData }: any) => {
                         title: title,
                         quantity: 1,
                       })
-                    )
+                    ), toastfxn('fav')
+                  }
                   }
                   className="w-full h-full border-b-[1px] border-b-gray-400 flex items-center justify-center text-xl bg-transparent hover:bg-amazon_yellow cursor-pointer duration-300"
                 >
@@ -119,7 +137,7 @@ const Products = ({ productData }: any) => {
                 {description.substring(0, 120)}
               </p>
               <button
-                onClick={() =>
+                onClick={() => {
                   dispatch(
                     addToCart({
                       _id: _id,
@@ -133,12 +151,14 @@ const Products = ({ productData }: any) => {
                       title: title,
                       quantity: 1,
                     })
-                  )
+                  ), toastfxn('cart')
+                }
                 }
                 className="h-10 font-medium bg-amazon_blue text-white rounded-md hover:bg-amazon_yellow hover:text-black duration-300 mt-2"
               >
                 add to cart
               </button>
+              <ToastContainer />
             </div>
           </div>
         )

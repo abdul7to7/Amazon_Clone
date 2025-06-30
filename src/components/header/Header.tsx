@@ -65,7 +65,7 @@ const Header = () => {
           <SlLocationPin />
           <div className="text-xs">
             <p>Deliver to</p>
-            <p className="text-white font-bold uppercase">USA</p>
+            <p className="text-white font-bold uppercase">India</p>
           </div>
         </div>
         {/* serchbar */}

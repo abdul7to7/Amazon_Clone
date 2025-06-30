@@ -9,7 +9,8 @@ import CartPayment from "@/components/CartPayment";
 const CartPage = () => {
   const { productData } = useSelector((state: StateProps) => state.next);
   return (
-    <div className="max-w-screen-2xl mx-auto px-6 grid grid-cols-5 gap-10 py-4">
+    <div className="max-w-screen-2xl mx-auto px-6 flex flex-wrap gap-10 py-4">
+    {/* <div className="max-w-screen-2xl mx-auto px-6 grid grid-cols-5 gap-10 py-4"> */}
       {productData.length > 0 ? (
         <>
           <div className="bg-white col-span-4 p-4 rounded-lg">
